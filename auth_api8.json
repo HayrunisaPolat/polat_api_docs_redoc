@@ -1,0 +1,717 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Narofis Login & Worker API",
+    "version": "1.0.1",
+   "description": "Narofis sistemini kullanıcı girişi, şifre yönetimi ve işçi bilgileri için kullanılan API endpoint'leridir.Bu API'lerden tüm endpoint'ler her durumda HTTP 200 döner; yanıt gövdesindeki type alanı SUCCESS, ERROR veya UNAUTHORIZED değerlerinden birini alır.Bu kural tüm endpointler için geçerlidir."
+ },
+  "servers": [
+    {
+      "url": "https://api.narofis.com.tr/api",
+      "description": "Üretim API sunucusu"
+    }
+  ],
+  "paths": {
+    "/panel/auth/login": {
+      "post": {
+        "summary": "Kullanıcı Girişi",
+        "description": "Firma kodu, e‑posta ve şifre ile kullanıcı girişi yapılır.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/LoginRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/LoginResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/auth/forgot-password": {
+      "post": {
+        "summary": "Şifremi Unuttum",
+        "description": "Firma kodu ve e‑posta girildiğinde sıfırlama token’ı e‑postayla gönderilir.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ForgotPasswordRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/ForgotPasswordResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/auth/set-new-password": {
+      "post": {
+        "summary": "Yeni Şifre Belirleme",
+        "description": "Token ile yeni şifre ve tekrarını girerek güncelleme yapılır.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/SetNewPasswordRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/SetNewPasswordResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/get-index": {
+      "post": {
+        "summary": "Kullanıcı Admin Yetkisi Sorgulama",
+        "description": "Kullanıcının admin yetkisi olup olmadığı bilgisini döner.",
+        "security": [
+           {
+            "BearerAuth": []
+           }
+       ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/GetIndexResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" },
+                    { "$ref": "#/components/schemas/UnauthorizedResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/get-sidebar": {
+      "post": {
+        "summary": "Get Sidebar Bilgisi",
+        "description": "is_admin, tenant_code ve image_url bilgilerini döner.",
+        "security": [
+           {
+            "BearerAuth": []
+           }
+       ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/GetSidebarResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" },
+                    { "$ref": "#/components/schemas/UnauthorizedResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/worker/get-index": {
+      "post": {
+        "summary": "Worker Dashboard Bilgisi",
+        "description": "Çalışana ait temel bilgileri ve iş verilerini döner.",
+        "security": [
+           {
+            "BearerAuth": []
+           }
+       ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/GetWorkerIndexResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" },
+                    { "$ref": "#/components/schemas/UnauthorizedResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/worker/work/add-open": {
+      "post": {
+        "summary": "İş Kayıdı Oluşturma Formu Verisi",
+        "description": "Müşteri ve makine tipi listelerini döner.",
+        "security": [
+           {
+            "BearerAuth": []
+           }
+       ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/AddWorkOpenResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" },
+                    { "$ref": "#/components/schemas/UnauthorizedResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/worker/work/add-submit": {
+      "post": {
+        "summary": "İş Kaydı Ekleme",
+        "description": "Yeni iş kaydı eklemek için gerekli tüm bilgileri alır.",
+        "security": [
+           {
+            "BearerAuth": []
+           }
+       ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/AddWorkSubmitRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/AddWorkSubmitResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" },
+                    { "$ref": "#/components/schemas/UnauthorizedResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/worker/work/file/add-submit": {
+      "post": {
+        "summary": "İş  Kaydına Dosya Yükleme",
+        "description": "İlgili iş kaydına kullanıcı tarafından dosya eklenmesini sağlar.",
+        "security": [
+           {
+            "BearerAuth": []
+           }
+       ],
+        "operationId": "uploadWorkFile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Yüklenecek dosya (örneğin bir .png, .pdf vb.)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/UploadWorkFileResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" },
+                    { "$ref": "#/components/schemas/UnauthorizedResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/worker/work/file/delete/{fileID}": {
+      "post": {
+        "summary": "İş Kaydına Ait Dosya Silme",
+        "description": "Belirtilen iş kaydına ait dosyayı siler.",
+        "security": [
+           {
+            "BearerAuth": []
+           }
+       ],
+        "parameters": [
+          {
+            "name": "fileID",
+            "in": "path",
+            "required": true,
+            "description": "Silinecek dosyanın benzersiz numarası",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "example": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/DeleteWorkFileResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" },
+                    { "$ref": "#/components/schemas/UnauthorizedResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panel/worker/work/file/list/{workID}": {
+      "post": {
+        "summary": "Dosyaların Listesi ve Bilgileri",
+        "description": "Dosyaya veya dosyalara ait bilgileri getirir.",
+        "security": [
+           {
+            "BearerAuth": []
+           }
+       ],
+        "parameters": [
+          {
+            "name": "workID",
+            "in": "path",
+            "required": true,
+            "description": "Listelenecek iş kaydının benzersiz numarası",
+            "schema": { "type": "integer", "format": "int64", "example": 123 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/GetWorkFilesResponse" },
+                    { "$ref": "#/components/schemas/ErrorResponse" },
+                    { "$ref": "#/components/schemas/UnauthorizedResponse" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+   },
+
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "required": ["code","email","password"],
+        "properties": {
+          "code": { "type": "string", "example": "deneme" },
+          "email": { "type": "string", "example": "user@example.com" },
+          "password": { "type": "string", "example": "123nisze" }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "required": ["type","data"],
+        "properties": {
+          "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+          "data": {
+            "type": "object",
+            "required": ["is_admin","token"],
+            "properties": {
+              "is_admin": { "type": "boolean", "example": true },
+              "token": { "type": "string", "example": "eyJ0eXAiOiJKV1QiLCJhbGci..." }
+            }
+          }
+        }
+      },
+      "ForgotPasswordRequest": {
+        "type": "object",
+        "required": ["code","email"],
+        "properties": {
+          "code": { "type": "string", "example": "deneme" },
+          "email": { "type": "string", "example": "user@example.com" }
+        }
+      },
+      "ForgotPasswordResponse": {
+        "type": "object",
+        "required": ["type","data"],
+        "properties": {
+          "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+          "data": {
+            "type": "object",
+            "required": ["token"],
+            "properties": {
+              "token": { "type": "string", "example": "jedfnjJKJDjdjue" }
+            }
+          }
+        }
+      },
+      "SetNewPasswordRequest": {
+        "type": "object",
+        "required": ["code","token","new_password","new_password_again"],
+        "properties": {
+          "code": { "type": "string", "example": "deneme" },
+          "token": { "type": "string", "example": "jndjhuJNJJIDheue" },
+          "new_password": { "type": "string", "example": "Yeni1234" },
+          "new_password_again": { "type": "string", "example": "Yeni1234" }
+        }
+      },
+      "SetNewPasswordResponse": {
+        "type": "object",
+        "required": ["type","data"],
+        "properties": {
+          "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+          "data": {
+            "type": "object",
+            "required": ["message"],
+            "properties": {
+              "message": { "type": "string", "example": "Bilgiler kaydedildi. Yeni şifre ile giriş yapabilirsiniz." }
+            }
+          }
+        }
+      },
+     "GetIndexResponse": {
+       "type": "object",
+        "required": ["type", "data"],
+        "properties": {
+          "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+          "data": {
+            "type": "object",
+            "required": ["is_admin"],
+            "properties": {
+              "is_admin": { "type": "boolean", "example": true }
+            }
+          }
+        }
+     },
+     "GetSidebarResponse": {
+        "type": "object",
+        "required": ["type", "data"],
+        "properties": {
+          "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+          "data": {
+            "type": "object",
+            "required": ["is_admin", "image_url", "tenant_code"],
+            "properties": {
+              "is_admin": { "type": "boolean", "example": true },
+              "image_url": {
+                "type": "string",
+                "example": "https://s.picture.com/picture/b0d7d700f7eab"
+              },
+              "tenant_code": { "type": "string", "example": "DENEME" }
+            }
+          }
+        }
+      },
+"GetWorkerIndexResponse": {    
+  "type": "object",
+  "required": ["type", "data"],
+  "properties": {
+    "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+    "data": {
+      "type": "object",
+      "required": ["user", "works_data"],
+      "properties": {
+        "user": {
+          "type": "object",
+          "required": ["first_name", "last_name"],
+          "properties": {
+            "first_name": { "type": "string", "example": "firstName" },
+            "last_name": { "type": "string", "example": "lastName" }
+          }
+        },
+        "works_data": {
+          "type": "object",
+          "required": ["date_range", "items", "totals"],
+          "properties": {
+            "date_range": {
+              "type": "object",
+              "required": ["start", "end"],
+              "properties": {
+                "start": { "type": "string", "format": "date-time", "example":"2025-07-24/19:02:04"  },
+                "end": { "type": "string", "format": "date-time", "example":"2025-07-24/19:42:06" }
+              }
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["id", "canceled", "date", "created_at", "customer_id", "customer_name", "makine_tur_name", "makine_seri_no", "description", "work_hour", "travel_hour", "assistant_staff_count", "additional_status", "expense_incurred", "vehicle_km", "expense_description", "has_files"],
+                "properties": {
+                  "id": { "type": "integer", "example": 100 },
+                  "canceled": { "type": "boolean", "example": false },
+                  "date": { "type": "string", "format": "date-time", "example": "2025-07-24/00:00:00" },
+                  "created_at": { "type": "string", "format": "date-time", "example": "2025-07-24/19:02:04" },
+                  "customer_id": { "type": "integer", "example": 42 },
+                  "customer_name": { "type": "string", "example": "Test 1 Customer" },
+                  "makine_tur_name": { "type": "string", "example": "Test 1" },
+                  "makine_seri_no": { "type": "string", "example": "A1" },
+                  "description": { "type": "string", "example": "description" },
+                  "work_hour": { "type": "number", "format": "float", "example": "1" },
+                  "travel_hour": { "type": "number", "format": "float", "example": "1" },
+                  "assistant_staff_count": { "type": "integer", "example": "1" },
+                  "additional_status": { "type": "string", "example": "NONE" },
+                  "expense_incurred": { "type": "string", "example": "1 TL" },
+                  "vehicle_km": { "type": "string", "example": "1 KM" },
+                  "expense_description": { "type": "string", "example": "expense description" },
+                  "has_files": { "type": "boolean", "example": false }
+                }
+              }
+            },
+            "totals": {
+              "type": "object",
+              "required": ["work_hour", "travel_hour", "assistant_staff_count", "resmi_tatil", "yillik_izin", "ucretli_izin", "raporlu", "pazar_hafta_tatili", "tutar", "km", "local_count", "not_local_count", "km_hakedis", "harcirah_hakedis", "yemek_hakedis"],
+              "properties": {
+                "work_hour": { "type": "number", "format": "float","example": "2.00" },
+                "travel_hour": { "type": "number", "format": "float", "example": "2.00" },
+                "assistant_staff_count": {"type": "number", "format": "float","example": "2.00" },
+                "resmi_tatil": { "type": "integer", "example": 0 },
+                "yillik_izin": { "type": "integer", "example": 0 },
+                "ucretli_izin": { "type": "integer", "example": 0 },
+                "raporlu": { "type": "integer", "example": 0 },
+                "pazar_hafta_tatili": { "type": "integer", "example": 0 },
+                "tutar": { "type": "number", "format": "float", "example": "1001.00" },
+                "km": { "type": "number", "format": "float", "example": "11.00" },
+                "local_count": { "type": "integer", "example": 2 },
+                "not_local_count": { "type": "integer", "example": 0 },
+                "km_hakedis": { "type": "number", "format": "float", "example": "0.00" },
+                "harcirah_hakedis": {"type": "number", "format": "float", "example": "0.00" },
+                "yemek_hakedis": { "type": "number", "format": "float","example": "0.00" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+},
+      "AddWorkOpenResponse": {
+        "type": "object",
+        "required": ["type","data"],
+        "properties": {
+          "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "customers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 46 },
+                    "name": { "type": "string", "example": "User" },
+                    "is_local": { "type": "boolean", "example": true }
+                  }
+                }
+              },
+              "machine_types": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 1 },
+                    "name": { "type": "string", "example": "Machine1" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "AddWorkSubmitRequest": {
+        "type": "object",
+        "required": [
+          "additional_status","assistant_staff_count","customer_id","date",
+          "description","expense_description","expense_incurred","file_ids",
+          "makine_seri_no","makine_tur_id","travel_hour","vehicle_km","work_hour"
+        ],
+        "properties": {
+          "additional_status": { "type": "string", "example": "NONE" },
+          "assistant_staff_count": { "type": "integer", "example": 3 },
+          "customer_id": { "type": "integer", "example": 46 },
+          "date": { "type": "string", "format": "date", "example": "2025-07-17" },
+          "description": { "type": "string", "example": "İş detayları açıklaması" },
+          "expense_description": { "type": "string", "example": "expense description" },
+          "expense_incurred": { "type": "number", "format": "float", "example": 1000 },
+          "file_ids": { "type": "array", "items": { "type": "integer" }, "example": [] },
+          "makine_seri_no": { "type": "string", "example": "123" },
+          "makine_tur_id": { "type": "integer", "example": 8 },
+          "travel_hour": { "type": "number", "format": "float", "example": 1 },
+          "vehicle_km": { "type": "number", "format": "float", "example": 2 },
+          "work_hour": { "type": "number", "format": "float", "example": 1 }
+        }
+      },
+      "AddWorkSubmitResponse": {
+        "type": "object",
+        "required": ["type","data"],
+        "properties": {
+          "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+          "data": {
+            "type": "object",
+            "required": ["message"],
+            "properties": {
+              "message": { "type": "string", "example": "İş kaydı eklenmiştir." }
+            }
+          }
+        }
+      },
+      "UploadWorkFileResponse": {
+        "type": "object",
+        "required": ["type","data"],
+        "properties": {
+          "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "item": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "example": 101 },
+                  "name": { "type": "string", "example": "file.png" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "DeleteWorkFileResponse": {
+        "type": "object",
+        "required": ["type","data"],
+        "properties": {
+          "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+          "data": {
+            "type": "object",
+            "required": ["message"],
+            "properties": {
+              "message": { "type": "string", "example": "Dosya silme işlemi tamamlandı." }
+            }
+          }
+        }
+      },
+      "GetWorkFilesResponse": {
+        "type": "object",
+        "required": ["type", "data"],
+        "properties": {
+          "type": { "type": "string", "enum": ["SUCCESS"], "example": "SUCCESS" },
+          "data": {
+            "type": "object",
+            "required": ["files"],
+            "properties": {
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "name", "mime_type", "extension", "full_url"],
+                  "properties": {
+                    "id": {"type": "integer", "format": "int64", "example": 100},
+                    "name": {"type": "string", "example": "deneme.png"},
+                    "mime_type": {"type": "string", "example": "image/png"},
+                    "extension": {"type": "string", "example": "png"},
+                    "full_url": { "type": "string", "format": "uri", "example": "https://depo.example.com.tr/example/files/2025/07/18/100-hvdvCGFS4hedhj.png"}
+                  }
+                }
+              }
+            }
+         }
+       }
+     },
+    "ErrorResponse": {
+       "type": "object",
+       "required": ["type", "data"],
+       "properties": {
+         "type": {"type": "string","enum": ["ERROR"],"example": "ERROR"},
+         "data": {
+           "type": "object",
+           "required": ["message"],
+           "properties": { 
+             "message": {"type": "string", "example": "Bilgileri hatalı girdiniz. Kontrol ederek tekrar deneyiniz."}
+              }
+           }
+         }
+      },
+     "UnauthorizedResponse": {
+       "type": "object",
+       "required": ["type", "data"],
+       "properties": {
+         "type": {"type": "string","enum": ["UNAUTHORIZED"],"example": "UNAUTHORIZED"},
+         "data": {
+           "type": "object",
+           "required": ["message"],
+           "properties": { 
+             "message": {"type": "string", "example": "Giriş yapmalısınız."}
+              }
+           }
+         }
+      } 
+    }
+  }
+}
