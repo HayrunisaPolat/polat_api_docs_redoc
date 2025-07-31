@@ -3,7 +3,7 @@
   "info": {
     "title": "Narofis Login & Worker API",
     "version": "1.0.1",
-   "description": "Narofis sistemini kullanıcı girişi, şifre yönetimi ve işçi bilgileri için kullanılan API endpoint'leridir.Bu API'lerden tüm endpoint'ler her durumda HTTP 200 döner; yanıt gövdesindeki type alanı SUCCESS veya UNAUTHORIZED değerlerinden birini alır.Bu kural tüm endpointler için geçerlidir."
+   "description": "Narofis sistemini kullanıcı girişi, şifre yönetimi ve işçi bilgileri için kullanılan API endpoint'leridir.Bu API'lerden tüm endpoint'ler her durumda HTTP 200 döner; yanıt gövdesindeki type alanı SUCCESS, ERROR veya UNAUTHORIZED değerlerinden birini alır. Bu kural tüm endpointler için geçerlidir."
  },
   "servers": [
     {
@@ -497,8 +497,8 @@
               "type": "object",
               "required": ["start", "end"],
               "properties": {
-                "start": { "type": "string", "format": "date-time", "example":"2025-07-24/19:02:04"  },
-                "end": { "type": "string", "format": "date-time", "example":"2025-07-24/19:42:06" }
+                "start": { "type": "string", "nullable": true, "format": "date-time", "example":"2025-07-24/19:02:04"  },
+                "end": { "type": "string", "nullable": true, "format": "date-time", "example":"2025-07-24/19:42:06" }
               }
             },
             "items": {
