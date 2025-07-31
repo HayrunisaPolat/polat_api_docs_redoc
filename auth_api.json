@@ -3,7 +3,7 @@
   "info": {
     "title": "Narofis Login & Worker API",
     "version": "1.0.1",
-   "description": "Narofis sistemini kullanıcı girişi, şifre yönetimi ve işçi bilgileri için kullanılan API endpoint'leridir.Bu API'lerden tüm endpoint'ler her durumda HTTP 200 döner; yanıt gövdesindeki type alanı SUCCESS veya UNAUTHORIZED değerlerinden birini alır.Bu kural tüm endpointler için geçerlidir."
+   "description": "Narofis sistemini kullanıcı girişi, şifre yönetimi ve işçi bilgileri için kullanılan API endpoint'leridir.Bu API'lerden tüm endpoint'ler her durumda HTTP 200 döner; yanıt gövdesindeki type alanı SUCCESS, ERROR veya UNAUTHORIZED değerlerinden birini alır.Bu kural tüm endpointler için geçerlidir."
  },
   "servers": [
     {
@@ -516,8 +516,8 @@
                   "makine_tur_name": { "type": "string", "example": "Test 1" },
                   "makine_seri_no": { "type": "string", "example": "A1" },
                   "description": { "type": "string", "example": "description" },
-                  "work_hour": { "type": "number", "format": "float", "example": "1" },
-                  "travel_hour": { "type": "number", "format": "float", "example": "1" },
+                  "work_hour": { "type": "string", "example": "1" },
+                  "travel_hour": {"type": "string", "example": "1" },
                   "assistant_staff_count": { "type": "integer", "example": "1" },
                   "additional_status": { "type": "string", "example": "NONE" },
                   "expense_incurred": { "type": "string", "example": "1 TL" },
@@ -531,21 +531,21 @@
               "type": "object",
               "required": ["work_hour", "travel_hour", "assistant_staff_count", "resmi_tatil", "yillik_izin", "ucretli_izin", "raporlu", "pazar_hafta_tatili", "tutar", "km", "local_count", "not_local_count", "km_hakedis", "harcirah_hakedis", "yemek_hakedis"],
               "properties": {
-                "work_hour": { "type": "number", "format": "float","example": "2.00" },
-                "travel_hour": { "type": "number", "format": "float", "example": "2.00" },
-                "assistant_staff_count": {"type": "number", "format": "float","example": "2.00" },
+                "work_hour": { "type": "string","example": "2.00" },
+                "travel_hour": { "type": "string", "example": "2.00" },
+                "assistant_staff_count": {"type": "string","example": "2.00" },
                 "resmi_tatil": { "type": "integer", "example": 0 },
                 "yillik_izin": { "type": "integer", "example": 0 },
                 "ucretli_izin": { "type": "integer", "example": 0 },
                 "raporlu": { "type": "integer", "example": 0 },
                 "pazar_hafta_tatili": { "type": "integer", "example": 0 },
-                "tutar": { "type": "number", "format": "float", "example": "1001.00" },
-                "km": { "type": "number", "format": "float", "example": "11.00" },
+                "tutar": { "type": "string", "example": "1001.00" },
+                "km": { "type": "string", "example": "11.00" },
                 "local_count": { "type": "integer", "example": 2 },
                 "not_local_count": { "type": "integer", "example": 0 },
                 "km_hakedis": { "type": "number", "format": "float", "example": "0.00" },
-                "harcirah_hakedis": {"type": "number", "format": "float", "example": "0.00" },
-                "yemek_hakedis": { "type": "number", "format": "float","example": "0.00" }
+                "harcirah_hakedis": {"type": "string", "example": "0.00" },
+                "yemek_hakedis": {"type": "string","example": "0.00" }
               }
             }
           }
