@@ -518,7 +518,7 @@
                   "description": { "type": "string", "example": "description" },
                   "work_hour": { "type": "string", "example": "1" },
                   "travel_hour": {"type": "string", "example": "1" },
-                  "assistant_staff_count": { "type": "integer", "example": "1" },
+                  "assistant_staff_count": { "type": "string", "example": "1" },
                   "additional_status": { "type": "string", "example": "NONE" },
                   "expense_incurred": { "type": "string", "example": "1 TL" },
                   "vehicle_km": { "type": "string", "example": "1 KM" },
