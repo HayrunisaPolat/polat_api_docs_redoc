@@ -543,7 +543,7 @@
                 "km": { "type": "string", "example": "11.00" },
                 "local_count": { "type": "integer", "example": 2 },
                 "not_local_count": { "type": "integer", "example": 0 },
-                "km_hakedis": { "type": "number", "format": "float", "example": "0.00" },
+                "km_hakedis": { "type": "string", "example": "0.00" },
                 "harcirah_hakedis": {"type": "string", "example": "0.00" },
                 "yemek_hakedis": {"type": "string","example": "0.00" }
               }
